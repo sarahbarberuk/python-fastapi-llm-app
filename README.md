@@ -4,13 +4,14 @@
 
 1. Create .env file with OPENAI_KEY=sk...
 2. Start a virtual environment:
-   `python3 -m venv venv`
-   `source venv/bin/activate`
+
+   - `python3 -m venv venv`
+   - `source venv/bin/activate`
 
 3. Start the app:
-   `python run.py`
-   In browser: http://localhost:8000
+   - `python run.py`
+   - In browser: http://localhost:8000
 
-## To view API routes (Swigger docs)
+## To view API routes (Swagger docs)
 
 In browser: http://localhost:8000/docs
