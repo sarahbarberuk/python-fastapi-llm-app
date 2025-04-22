@@ -1,13 +1,9 @@
 import os
 from fastapi import FastAPI, APIRouter, HTTPException 
 from app.models.prompt import PromptRequest
-from dotenv import load_dotenv
 from openai import OpenAI, OpenAIError
-
-# Load .env file
-load_dotenv()
-api_key = os.getenv("OPENAI_API_KEY")
-client = OpenAI(api_key=api_key)
+from app.services.openai_client import client
+from app.utils.error_handler import handle_exceptions
 
 router = APIRouter(prefix="/summarize")
 
@@ -25,10 +21,5 @@ async def summarize_text(req: PromptRequest):
             temperature=0.7,
         )
         return {"summary": response.choices[0].message.content}
-    except OpenAIError as e:
-        raise HTTPException(status_code=502, detail="LLM service failed")
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail="Bad input")
-    # fallback - catches any other exception and throws it as a 500 internal server error. JSON response returned with status code and detail message field
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise handle_exceptions(e)
